@@ -1,0 +1,5 @@
+# Package Files 
+*.json
+
+# moduels Folder
+/node_modules

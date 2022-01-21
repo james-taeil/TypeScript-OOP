@@ -8,7 +8,7 @@
     const BEANS_GRAMM_PER_SHOT: number = 19;
     let coffeeBeans: number = 0;
 
-    // marchine
+    // machine
     const makeCoffee = (shots: number): CoffeeCup => {
         if (shots * BEANS_GRAMM_PER_SHOT > coffeeBeans) {
             throw new Error('Not enough coffee beans!');

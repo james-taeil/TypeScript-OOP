@@ -13,6 +13,7 @@
             this.coffeeBeans = coffeeBeans;
         }
 
+        // not constructor make function
         static makeMachine(coffeeBeans: number): CoffeeMaker {
             return new CoffeeMaker(coffeeBeans);
         }

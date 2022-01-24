@@ -56,7 +56,7 @@
     /* maker.coffeeBeans = 3;
     maker.coffeeBeans = -24; */
 
-    maker.fillCoffeeBeans(20);
+    // maker.fillCoffeeBeans(20);
 
     // ? 주로 constructor은 private으로 한다. 이렇게 되면 new ClassName은 못쓰지만, ClassName `.`
     // ? 을 사용하여 내부적으로 사용할 수 있는 함수를 확인 할 수 있다.
@@ -67,15 +67,15 @@
         get fullName(): string {
             return `${this.firstName} ${this.lastName}`;
         }
-        private internalAge = 4;
+        private DB_DATA_NAME = 4;
         
         get age(): number {
-            return this.internalAge;
+            return this.DB_DATA_NAME;
         }
         
         // todo 재할당 해줄수 있는 것
         set age(num: number) {
-            this.internalAge = num;
+            this.DB_DATA_NAME = num;
         }
 
         constructor(public firstName: string, private lastName: string) {

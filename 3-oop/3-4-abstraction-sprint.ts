@@ -9,9 +9,14 @@
     makeCoffee(shots: number): CoffeeCup;
   }
 
-  class CoffeeMachine implements CoffeeMaker {
-    private static BEANS_GRAMM_PER_SHOT: number = 15;
+  interface CommercialCoffeeMaker {
+    makeCoffee(shots: number): CoffeeCup;
+    fillCoffeeBeans(beans: number): void;
+    clean(): void;
+  }
 
+  class CoffeeMachine implements CoffeeMaker, CommercialCoffeeMaker {
+    private static BEANS_GRAMM_PER_SHOT: number = 15;
     private constructor(private coffeeBeans: number) {
       this.coffeeBeans = coffeeBeans;
     }
@@ -25,6 +30,10 @@
         throw new Error('value for beans should be greater than 0');
       }
       this.coffeeBeans += beans;
+    }
+
+    clean() {
+      console.log('cleaning the machine')
     }
 
     private grindBeans(shots: number) {
@@ -56,15 +65,36 @@
     }
   }
 
-  const maker: CoffeeMachine = CoffeeMachine.makeMachine(30);
+  /* const maker: CoffeeMachine = CoffeeMachine.makeMachine(30);
   maker.fillCoffeeBeans(32);
   maker.makeCoffee(2);
-  console.log(maker);
+  console.log(maker); */
   // todo abstraction
   // ? 결론부터 말하자면 접근제어, interface 등을 통해 할 수 있다.
   // * 가장 심플한 해결책으로 내부적으로 쓰이는 함수는 private으로 설정하는 것
 
-  const maker2: CoffeeMaker = CoffeeMachine.makeMachine(30);
+  class AmateurUser {
+    constructor(private machine: CoffeeMaker) {}
+    makeCoffee() {
+      const coffee = this.machine.makeCoffee(2);
+      console.log(coffee);
+    }
+  }
+
+  class ProBarista {
+    constructor(private machnie: CommercialCoffeeMaker) {}
+    makeCoffee() {
+      const coffee = this.machnie.makeCoffee(2);
+      console.log(coffee);
+      this.machnie.fillCoffeeBeans(45);
+      this.machnie.clean();
+    }
+  }
+
+  const maker2: CoffeeMachine = CoffeeMachine.makeMachine(30);
   // maker2.fillCoffeeBeans(30); // ! Error - interface에 있는 기능만 사용 가능
-  maker2.makeCoffee(2);
+  const amateur = new AmateurUser(maker2);
+  const pro = new ProBarista(maker2);
+  pro.makeCoffee();
+
 }

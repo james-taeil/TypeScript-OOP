@@ -1,7 +1,7 @@
 {
   type CoffeeCup = {
-    shots: number,
-    milk: boolean
+    shots: number;
+    milk: boolean;
   }
 
   interface CoffeeMaker {
@@ -10,7 +10,9 @@
 
   class CoffeeMachine implements CoffeeMaker {
     private static BEANS_GRAMM_PER_SHOT: number = 15;
-    constructor(private coffeeBeans: number) {
+    private coffeeBeans: number = 0;
+
+    constructor(coffeeBeans: number) {
       this.coffeeBeans = coffeeBeans;
     }
 
@@ -18,7 +20,7 @@
       return new CoffeeMachine(coffeeBeans);
     }
 
-    public fillCoffeeBeans(beans: number) {
+    fillCoffeeBeans(beans: number) {
       if (beans < 0) {
         throw new Error('value for beans should be greater than 0');
       }
@@ -50,8 +52,8 @@
         milk: false,
       }
     }
-
-    public makeCoffee = (shots: number): CoffeeCup => {
+    
+    makeCoffee(shots: number): CoffeeCup {
       this.grindBeans(shots);
       this.preheat();
       return this.extract(shots);
@@ -59,12 +61,30 @@
   }
 
   // todo inheritance
-  class cafeLatteMachine extends CoffeeMachine {
+  class CafeLatteMachine extends CoffeeMachine {
+    constructor(beans: number, public readonly serialNumber: string) {
+      super(beans)
+    }
     
-  }
+    private steamMilk(): void {
+      console.log('Stemaing some milk 🥛')
+    }
+    
+    makeCoffee (shots: number): CoffeeCup {
+      const coffee = super.makeCoffee(shots);
+      this.steamMilk();
+
+      return {
+        ...coffee,
+        milk: true
+      }
+    }
+  } 
 
   const machine = new CoffeeMachine(32);
+  const latteeMachine = new CafeLatteMachine(30, 'aa11');
+  const coffee = latteeMachine.makeCoffee(1);
+  console.log(coffee);
+  console.log(latteeMachine.serialNumber);
 
-  const latteMachine = new CoffeeMachine(32)
-  
 }
